@@ -1,23 +1,16 @@
 package com.jpa.kmmoon.demo.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "Board")
 public class Board implements Serializable {
     @Id
@@ -43,8 +36,9 @@ public class Board implements Serializable {
     @JoinColumn(name = "user_uuid", nullable = false, foreignKey = @ForeignKey(name = "fk_user_uuid_to_board_id"))
     private User user;
 
+    // LAZY 즉시로딩, EAGER 지연로딩
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="comment_id")
+    @JoinColumn(name="board_id")
     private List<Comment> commentList;
 
 }

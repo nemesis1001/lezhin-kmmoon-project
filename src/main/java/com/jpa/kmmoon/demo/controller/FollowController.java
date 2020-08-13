@@ -1,11 +1,7 @@
 package com.jpa.kmmoon.demo.controller;
 
-//import com.jpa.kmmoon.demo.repository.NoteRepository;
-//import com.jpa.kmmoon.demo.vo.Note;
 import com.jpa.kmmoon.demo.repository.FollowRepository;
-import com.jpa.kmmoon.demo.repository.UserRepository;
 import com.jpa.kmmoon.demo.vo.Follow;
-import com.jpa.kmmoon.demo.vo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

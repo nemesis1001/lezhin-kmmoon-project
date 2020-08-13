@@ -27,83 +27,116 @@ class UnitTest {
     @Autowired
     private FollowService followService;
 
+    private final String ADMIN_USER_UUID = "22e6f869-43b1-4be8-89ae-69ea21e8e769";
+    private final String FOLLOWEE_USER_UUID = "ce4bbd14-e703-44cc-af83-3ce151362e06";
+    private final String FOLLOWER_USER_UUID = "c51832f4-819d-49e6-b128-6b7b9546e247";
+    private final String NOT_FOLLOWER_USER_UUID = "1f9d164d-4e96-47c4-bd8e-ff17f00902be";
 
-//    @Test
+    @Test
+    public void test(){
+        userRegistInfo(); // 유저 생성 테스트
+        followRegistInfo(); // 팔로우 생성 테스트
+        boardRegistInfo(); // 포스팅 테스트
+        getNewsfeedList(); // 뉴스피드 테스트
+    }
+
+    // 테스트 유저 생성
     public void userRegistInfo() {
-        String userUuid = "";
         User user = null;
+        String userUuid = "";
 
-        userUuid = "22e6f869-43b1-4be8-89ae-69ea21e8e769";
-        user = User.builder().userUuid(userUuid).email("nemesis1825@gmail.com").name("MKM").regDate(new Date()).roleType(RoleType.ADMIN).build();
+        Date date = new Date();
+
+        user = User.builder().userUuid(ADMIN_USER_UUID).email("nemesis1825@gmail.com").name("MKM").regDate(date).roleType(RoleType.ADMIN).build();
         userService.save(user);
 
+        user = User.builder().userUuid(FOLLOWEE_USER_UUID).email("nemesis1825@gmail.com_FOLLOWEE").name("MKM_FOLLOWEE").regDate(date).roleType(RoleType.USER).build();
+        userService.save(user);
 
-        for (int i = 0; i<=5; i++){
+        user = User.builder().userUuid(FOLLOWER_USER_UUID).email("nemesis1825@gmail.com_FOLLOWER").name("MKM_FOLLOWER").regDate(date).roleType(RoleType.USER).build();
+        userService.save(user);
+
+        user = User.builder().userUuid(NOT_FOLLOWER_USER_UUID).email("nemesis1825@gmail.com_NOT_FOLLOWER").name("MKM_NOT_FOLLOWER").regDate(date).roleType(RoleType.USER).build();
+        userService.save(user);
+
+        for (int i = 1; i<=5; i++){
             userUuid = UUID.randomUUID().toString();
-            user = User.builder().userUuid(userUuid).email("nemesis1825@gmail.com" + i).name("MKM_" + i).regDate(new Date()).roleType(RoleType.USER).build();
+            user = User.builder().userUuid(userUuid).email("nemesis1825@gmail.com" + i).name("MKM_" + i).regDate(date).roleType(RoleType.USER).build();
             userService.save(user);
         }
 
-        User resultUser = userService.findByUserUuid(userUuid);
-        log.info("result : {}, {}", resultUser, user);
+        List<User> resultUser = userService.findAll();
+        log.info("userRegistInfo() result : {}", resultUser);
+        log.info("==============================================================");
     }
 
-//    @Test
+    // 팔로우 테스트
     public void followRegistInfo() {
-        String followerUuid = "22e6f869-43b1-4be8-89ae-69ea21e8e769";
-        String followeeUuid = "5ebda7ab-e4e7-46be-821c-65a64044d682";
 
         Follow follow = new Follow();
-        follow.setFollowee(followeeUuid);
-        follow.setFollower(followerUuid);
-
-        log.info("follow : {} ", follow);
+        follow.setFollowee(FOLLOWEE_USER_UUID);
+        follow.setFollower(FOLLOWER_USER_UUID);
 
         followService.save(follow);
 
-        List<Follow> resultFollow = followService.findByFollowee(followeeUuid);
-        log.info("result : {}", resultFollow);
+        List<Follow> resultFollow = followService.findByFollowee(FOLLOWEE_USER_UUID);
+        log.info("followRegistInfo() result : {}", resultFollow);
     }
 
-//    @Test
+    // 포스팅 테스트
     public void boardRegistInfo() {
-        String userUuid = "22e6f869-43b1-4be8-89ae-69ea21e8e769";
 
-        User user = userService.findByUserUuid(userUuid);
+        User user = userService.findByUserUuid(FOLLOWER_USER_UUID);
 
-        Board board = new Board();
-        board.setUser(user);
-        board.setContent("fallowerContent1");
-        board.setEnable(1);
+        Board board = null;
 
-        boardService.save(board);
+        // follower 컨텐츠 생성
+
+        for (int i = 1; i<= 5; i++) {
+            board = new Board();
+
+            board.setUser(user);
+            board.setContent("followerContent_" + i);
+            board.setEnable(1);
+
+            boardService.save(board);
+        }
+
+        // followee 컨텐츠 생성
+        user = userService.findByUserUuid(FOLLOWEE_USER_UUID);
+
+        for (int i = 1; i<= 5; i++) {
+            board = new Board();
+
+            board.setUser(user);
+            board.setContent("followeeContent_" + i);
+            board.setEnable(1);
+
+            boardService.save(board);
+        }
+
+        user = userService.findByUserUuid(NOT_FOLLOWER_USER_UUID);
 
         board = new Board();
 
         board.setUser(user);
-        board.setContent("fallowerContent2");
+        board.setContent("notFollowerContent");
         board.setEnable(1);
 
         boardService.save(board);
 
-        board = new Board();
+        List<Board> boardList = boardService.findAll();
 
-        board.setUser(user);
-        board.setContent("fallowerContent3");
-        board.setEnable(1);
-
-        boardService.save(board);
-
+        log.info("boardRegistInfo() result : {}", boardList);
+        log.info("==============================================================");
     }
 
-    @Test
+    //뉴스피드 조회 테스트
     public void getNewsfeedList() {
-        String userUuid = "c928c57d-63a9-4576-bcf7-57e23cd58cd7";
+        List<Board> newsfeedList = boardService.findByNewsfeed(FOLLOWEE_USER_UUID, PageRequest.of(0, 10));
 
-        List<Board> newsfeedList = boardService.findByNewsfeed(userUuid, PageRequest.of(0, 10));
-
-        log.info("newsfeedList : {}", newsfeedList);
-
+        log.info("getNewsfeedList() result : {}", newsfeedList);
+        log.info("==============================================================");
     }
 
 }

@@ -1,10 +1,6 @@
 package com.jpa.kmmoon.demo.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,9 +9,6 @@ import java.util.Date;
 
 @Data
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @IdClass(FollowPK.class)
 @Table(name = "Follow")
 public class Follow implements Serializable {

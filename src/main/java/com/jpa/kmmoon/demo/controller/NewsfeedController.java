@@ -3,7 +3,6 @@ package com.jpa.kmmoon.demo.controller;
 import com.jpa.kmmoon.demo.service.BoardService;
 import com.jpa.kmmoon.demo.service.FollowService;
 import com.jpa.kmmoon.demo.vo.Board;
-import com.jpa.kmmoon.demo.vo.Follow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +23,7 @@ public class NewsfeedController {
 
     /**
      * 뉴스피드 - /newsfeed/{userUuid}/{page}/{size}            - get
+     *
      * header Authorization 생략
      *
      * response

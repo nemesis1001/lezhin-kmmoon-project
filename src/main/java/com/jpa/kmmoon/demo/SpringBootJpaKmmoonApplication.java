@@ -1,15 +1,7 @@
 package com.jpa.kmmoon.demo;
 
-import com.jpa.kmmoon.demo.repository.UserRepository;
-import com.jpa.kmmoon.demo.service.UserService;
-import com.jpa.kmmoon.demo.vo.RoleType;
-import com.jpa.kmmoon.demo.vo.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.Date;
-import java.util.UUID;
 
 @SpringBootApplication
 public class SpringBootJpaKmmoonApplication {

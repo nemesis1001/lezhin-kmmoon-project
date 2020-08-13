@@ -7,12 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public List<User> findAll(){
+        return userRepository.findAll();
+    }
 
     public User findByUserUuid(String userUuid){
         return userRepository.findByUserUuid(userUuid);

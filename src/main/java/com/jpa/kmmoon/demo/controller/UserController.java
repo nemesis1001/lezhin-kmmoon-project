@@ -1,6 +1,5 @@
 package com.jpa.kmmoon.demo.controller;
 
-import com.jpa.kmmoon.demo.repository.UserRepository;
 import com.jpa.kmmoon.demo.service.UserService;
 import com.jpa.kmmoon.demo.vo.User;
 import lombok.extern.slf4j.Slf4j;

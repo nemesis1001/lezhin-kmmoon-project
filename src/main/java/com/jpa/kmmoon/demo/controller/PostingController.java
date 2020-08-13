@@ -1,7 +1,5 @@
 package com.jpa.kmmoon.demo.controller;
 
-//import com.jpa.kmmoon.demo.repository.NoteRepository;
-//import com.jpa.kmmoon.demo.vo.Note;
 import com.jpa.kmmoon.demo.service.BoardService;
 import com.jpa.kmmoon.demo.vo.Board;
 import com.jpa.kmmoon.demo.vo.User;
