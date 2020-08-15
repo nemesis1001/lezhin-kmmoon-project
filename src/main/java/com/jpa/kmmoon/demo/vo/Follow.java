@@ -25,4 +25,5 @@ public class Follow implements Serializable {
     @CreationTimestamp
     private Date regDate;
 
+
 }

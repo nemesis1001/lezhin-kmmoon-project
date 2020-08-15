@@ -4,7 +4,6 @@ import com.jpa.kmmoon.demo.repository.UserRepository;
 import com.jpa.kmmoon.demo.vo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

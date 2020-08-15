@@ -2,13 +2,10 @@ package com.jpa.kmmoon.demo.service;
 
 import com.jpa.kmmoon.demo.repository.BoardRepository;
 import com.jpa.kmmoon.demo.repository.FollowRepository;
-import com.jpa.kmmoon.demo.repository.UserRepository;
 import com.jpa.kmmoon.demo.vo.Board;
 import com.jpa.kmmoon.demo.vo.Follow;
-import com.jpa.kmmoon.demo.vo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

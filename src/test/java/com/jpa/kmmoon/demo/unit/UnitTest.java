@@ -1,8 +1,12 @@
-package com.jpa.kmmoon.demo.vo;
+package com.jpa.kmmoon.demo.unit;
 
 import com.jpa.kmmoon.demo.service.BoardService;
 import com.jpa.kmmoon.demo.service.FollowService;
 import com.jpa.kmmoon.demo.service.UserService;
+import com.jpa.kmmoon.demo.vo.Board;
+import com.jpa.kmmoon.demo.vo.Follow;
+import com.jpa.kmmoon.demo.vo.RoleType;
+import com.jpa.kmmoon.demo.vo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,34 +49,23 @@ class UnitTest {
         User user = null;
         String userUuid = "";
 
-        Date date = new Date();
-
-        user = User.builder().userUuid(ADMIN_USER_UUID).email("nemesis1825@gmail.com").name("MKM").regDate(date).roleType(RoleType.ADMIN).build();
-        userService.save(user);
-
-        user = User.builder().userUuid(FOLLOWEE_USER_UUID).email("nemesis1825@gmail.com_FOLLOWEE").name("MKM_FOLLOWEE").regDate(date).roleType(RoleType.USER).build();
-        userService.save(user);
-
-        user = User.builder().userUuid(FOLLOWER_USER_UUID).email("nemesis1825@gmail.com_FOLLOWER").name("MKM_FOLLOWER").regDate(date).roleType(RoleType.USER).build();
-        userService.save(user);
-
-        user = User.builder().userUuid(NOT_FOLLOWER_USER_UUID).email("nemesis1825@gmail.com_NOT_FOLLOWER").name("MKM_NOT_FOLLOWER").regDate(date).roleType(RoleType.USER).build();
-        userService.save(user);
+        userRegistInfo(ADMIN_USER_UUID, "nemesis1825@gmail.com","MKM", new Date(),RoleType.ADMIN);
+        userRegistInfo(FOLLOWEE_USER_UUID, "nemesis1825@gmail.com_FOLLOWEE","MKM_FOLLOWEE", new Date(),RoleType.USER);
+        userRegistInfo(FOLLOWER_USER_UUID, "nemesis1825@gmail.com_FOLLOWER","MKM_FOLLOWER", new Date(),RoleType.USER);
+        userRegistInfo(NOT_FOLLOWER_USER_UUID, "nemesis1825@gmail.com_NOT_FOLLOWER","MKM_NOT_FOLLOWER", new Date(),RoleType.USER);
 
         for (int i = 1; i<=5; i++){
-            userUuid = UUID.randomUUID().toString();
-            user = User.builder().userUuid(userUuid).email("nemesis1825@gmail.com" + i).name("MKM_" + i).regDate(date).roleType(RoleType.USER).build();
-            userService.save(user);
+            userRegistInfo(UUID.randomUUID().toString(), "nemesis1825@gmail.com" + i,"MKM_" + i, new Date(),RoleType.USER);
         }
 
         List<User> resultUser = userService.findAll();
+
         log.info("userRegistInfo() result : {}", resultUser);
         log.info("==============================================================");
     }
 
     // 팔로우 테스트
     public void followRegistInfo() {
-
         Follow follow = new Follow();
         follow.setFollowee(FOLLOWEE_USER_UUID);
         follow.setFollower(FOLLOWER_USER_UUID);
@@ -137,6 +130,11 @@ class UnitTest {
 
         log.info("getNewsfeedList() result : {}", newsfeedList);
         log.info("==============================================================");
+    }
+
+
+    private void userRegistInfo(String uuid, String email, String name, Date date, RoleType roleType){
+        userService.save(User.builder().userUuid(uuid).email(email).name(name).regDate(date).roleType(roleType).build());
     }
 
 }

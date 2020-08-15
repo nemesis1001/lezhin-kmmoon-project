@@ -1,6 +1,7 @@
 package com.jpa.kmmoon.demo.controller;
 
 import com.jpa.kmmoon.demo.repository.FollowRepository;
+import com.jpa.kmmoon.demo.service.FollowService;
 import com.jpa.kmmoon.demo.vo.Follow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +15,17 @@ import java.util.HashMap;
 public class FollowController {
 
     @Autowired
-    private FollowRepository followRepository;
+    private FollowService followService;
 
     @GetMapping("/uuid/{userUuid}")
-    public @ResponseBody
-    HashMap<String, Object> getUserUuid(@PathVariable String userUuid) {
+    public HashMap<String, Object> getUserUuid(@PathVariable String userUuid) {
         log.info("userUuid : {}", userUuid);
 
         HashMap<String, Object> result = new HashMap<>();
 
         result.put("status", 200);
         result.put("msg", "success");
-        result.put("data", followRepository.findByFollowee(userUuid) );
+        result.put("data", followService.findByFollowee(userUuid) );
         return result;
     }
 
@@ -47,10 +47,10 @@ public class FollowController {
      *
      */
     @PostMapping("/info")
-    public @ResponseBody HashMap<String, Object> userRegistInfo(@RequestBody Follow follow) {
+    public HashMap<String, Object> userRegistInfo(@RequestBody Follow follow) {
         log.info("note : {}", follow);
 
-        followRepository.save(follow);
+        followService.save(follow);
 
         HashMap<String, Object> result = new HashMap<>();
 

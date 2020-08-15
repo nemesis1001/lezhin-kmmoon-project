@@ -36,7 +36,6 @@ public class Board implements Serializable {
     @JoinColumn(name = "user_uuid", nullable = false, foreignKey = @ForeignKey(name = "fk_user_uuid_to_board_id"))
     private User user;
 
-    // LAZY 즉시로딩, EAGER 지연로딩
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="board_id")
     private List<Comment> commentList;
