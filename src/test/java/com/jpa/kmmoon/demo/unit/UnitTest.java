@@ -46,9 +46,6 @@ class UnitTest {
 
     // 테스트 유저 생성
     public void userRegistInfo() {
-        User user = null;
-        String userUuid = "";
-
         userRegistInfo(ADMIN_USER_UUID, "nemesis1825@gmail.com","MKM", new Date(),RoleType.ADMIN);
         userRegistInfo(FOLLOWEE_USER_UUID, "nemesis1825@gmail.com_FOLLOWEE","MKM_FOLLOWEE", new Date(),RoleType.USER);
         userRegistInfo(FOLLOWER_USER_UUID, "nemesis1825@gmail.com_FOLLOWER","MKM_FOLLOWER", new Date(),RoleType.USER);
@@ -58,9 +55,7 @@ class UnitTest {
             userRegistInfo(UUID.randomUUID().toString(), "nemesis1825@gmail.com" + i,"MKM_" + i, new Date(),RoleType.USER);
         }
 
-        List<User> resultUser = userService.findAll();
-
-        log.info("userRegistInfo() result : {}", resultUser);
+        log.info("userRegistInfo() result : {}", userService.findAll());
         log.info("==============================================================");
     }
 
@@ -86,37 +81,20 @@ class UnitTest {
         // follower 컨텐츠 생성
 
         for (int i = 1; i<= 5; i++) {
-            board = new Board();
-
-            board.setUser(user);
-            board.setContent("followerContent_" + i);
-            board.setEnable(1);
-
-            boardService.save(board);
+            boardService.save(toBoard(user, "followerContent_" + i));
         }
 
         // followee 컨텐츠 생성
         user = userService.findByUserUuid(FOLLOWEE_USER_UUID);
 
         for (int i = 1; i<= 5; i++) {
-            board = new Board();
-
-            board.setUser(user);
-            board.setContent("followeeContent_" + i);
-            board.setEnable(1);
-
-            boardService.save(board);
+            boardService.save(toBoard(user, "followeeContent_" + i));
         }
 
+        // 무관계인 사용자의 컨텐츠 생성
         user = userService.findByUserUuid(NOT_FOLLOWER_USER_UUID);
 
-        board = new Board();
-
-        board.setUser(user);
-        board.setContent("notFollowerContent");
-        board.setEnable(1);
-
-        boardService.save(board);
+        boardService.save(toBoard(user, "notFollowerContent"));
 
         List<Board> boardList = boardService.findAll();
 
@@ -126,15 +104,21 @@ class UnitTest {
 
     //뉴스피드 조회 테스트
     public void getNewsfeedList() {
-        List<Board> newsfeedList = boardService.findByNewsfeed(FOLLOWEE_USER_UUID, PageRequest.of(0, 10));
-
-        log.info("getNewsfeedList() result : {}", newsfeedList);
+        log.info("getNewsfeedList() result : {}", boardService.findByNewsfeed(FOLLOWEE_USER_UUID, PageRequest.of(0, 10)));
         log.info("==============================================================");
     }
 
 
     private void userRegistInfo(String uuid, String email, String name, Date date, RoleType roleType){
         userService.save(User.builder().userUuid(uuid).email(email).name(name).regDate(date).roleType(roleType).build());
+    }
+
+    private Board toBoard(User user, String content){
+        Board board = new Board();
+        board.setUser(user);
+        board.setContent(content);
+        board.setEnable(1);
+        return board;
     }
 
 }

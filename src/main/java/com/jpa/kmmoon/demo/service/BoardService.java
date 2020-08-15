@@ -27,24 +27,25 @@ public class BoardService {
     }
 
     public List<Board> findByNewsfeed(String userUuid, Pageable pageable){
-        List<Follow> followList = followRepository.findByFollowee(userUuid);
+        Collection<String> followerCollection = followListToHashSetCollection(followRepository.findByFollowee(userUuid), userUuid);
 
-        Collection<String> followerCollection = new HashSet<>();
-        // 팔로워 리스트에 나 자신을 포함
-        followerCollection.add(userUuid);
-        for (Follow item : followList){
-            followerCollection.add(item.getFollower());
-        }
         log.info("followerCollection : {}", followerCollection);
 
         return boardRepository.findByUser_UserUuidIn(followerCollection, pageable);
     }
 
-
-
-
     public void save(Board board){
         boardRepository.save(board);
+    }
+
+    private Collection<String> followListToHashSetCollection (List<Follow> followList, String userUuid){
+        Collection<String> collection = new HashSet<>();
+        // 팔로워 리스트에 나 자신을 포함
+        collection.add(userUuid);
+        for (Follow item : followList){
+            collection.add(item.getFollower());
+        }
+        return collection;
     }
 
 
