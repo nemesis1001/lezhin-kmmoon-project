@@ -23,9 +23,9 @@ spring:
 
   # MySQL 설정
   datasource:
-    url:  jdbc:mysql://localhost:3306/lezhin
-    username: root
-    password: korea1891!
-    driver-class-name:  com.mysql.cj.jdbc.Driver
+    url:  jdbc:h2:~/test
+    username: sa
+    password: 1234
+    driver-class-name:  org.h2.Driver
     testWhileIdle: true
     validationQuery: SELECT 1

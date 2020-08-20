@@ -7,7 +7,6 @@ import com.jpa.kmmoon.demo.vo.Board;
 import com.jpa.kmmoon.demo.vo.Follow;
 import com.jpa.kmmoon.demo.vo.RoleType;
 import com.jpa.kmmoon.demo.vo.User;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Slf4j
 @SpringBootTest
 class UnitTest {
 
@@ -55,8 +53,8 @@ class UnitTest {
             userRegistInfo(UUID.randomUUID().toString(), "nemesis1825@gmail.com" + i,"MKM_" + i, new Date(),RoleType.USER);
         }
 
-        log.info("userRegistInfo() result : {}", userService.findAll());
-        log.info("==============================================================");
+//        log.info("userRegistInfo() result : {}", userService.findAll());
+//        log.info("==============================================================");
     }
 
     // 팔로우 테스트
@@ -68,7 +66,7 @@ class UnitTest {
         followService.save(follow);
 
         List<Follow> resultFollow = followService.findByFollowee(FOLLOWEE_USER_UUID);
-        log.info("followRegistInfo() result : {}", resultFollow);
+//        log.info("followRegistInfo() result : {}", resultFollow);
     }
 
     // 포스팅 테스트
@@ -98,14 +96,14 @@ class UnitTest {
 
         List<Board> boardList = boardService.findAll();
 
-        log.info("boardRegistInfo() result : {}", boardList);
-        log.info("==============================================================");
+//        log.info("boardRegistInfo() result : {}", boardList);
+//        log.info("==============================================================");
     }
 
     //뉴스피드 조회 테스트
     public void getNewsfeedList() {
-        log.info("getNewsfeedList() result : {}", boardService.findByNewsfeed(FOLLOWEE_USER_UUID, PageRequest.of(0, 10)));
-        log.info("==============================================================");
+//        log.info("getNewsfeedList() result : {}", boardService.findByNewsfeed(FOLLOWEE_USER_UUID, PageRequest.of(0, 10)));
+//        log.info("==============================================================");
     }
 
 
