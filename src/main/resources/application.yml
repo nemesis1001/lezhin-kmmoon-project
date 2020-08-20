@@ -15,15 +15,15 @@ spring:
 
     # MySQL 상세 지정
 #    spring.jpa.database-platform: org.hibernate.dialect.MySQL8Dialect
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL5Dialect
     # MySQL 을 사용할 것.
-    database:  mysql
+#    database:  mysql
 
   # MySQL 설정
   datasource:
-    url:  jdbc:h2:~/test
+    url:  jdbc:h2:tcp://localhost/~/test
     username: sa
     password: 1234
     driver-class-name:  org.h2.Driver
